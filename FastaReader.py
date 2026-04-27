@@ -1,3 +1,6 @@
+from pathlib import Path
+
+
 class Seq:
     """
     Класс для представления биологической последовательности.
@@ -47,7 +50,7 @@ class FastaReader:
     """
 
     def __init__(self, path):
-        self.path = path
+        self.path = Path(path)
 
     def __format_check(self):
         """
@@ -87,9 +90,27 @@ class FastaReader:
                 yield Seq(head, "".join(seq_list))
 
 # ---демнострация
+"""
 print("Введите название вашего файла или полный путь до него:")
 filename = input()
 
+
+reader = FastaReader(filename)
+"""
+while True:
+    filename = input("Введите путь к FASTA файлу (или 'exit' для выхода): ").strip()
+    
+    if filename.lower() == 'exit':
+        print("Выход из программы")
+        exit()
+    
+    file_path = Path(filename)
+    
+    if file_path.exists():
+        break
+    else:
+        print(f"Файл не найден. Попробуйте снова или введите 'exit' для выхода.")
+        print(f"Текущая директория: {Path.cwd()}")
 
 reader = FastaReader(filename)
 
